@@ -87,12 +87,29 @@ export default function Dashboard() {
           <h3 className="text-xl font-semibold text-[#024580]">Actividad Reciente</h3>
           <button className="text-[10px] font-bold text-[#108BF7] uppercase tracking-widest hover:underline">Ver Historial Completo</button>
         </div>
-        <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-gray-50 rounded-[2rem] bg-gray-50/30">
-          <Activity size={64} className="text-gray-100 mb-6 drop-shadow-sm" />
-          <p className="text-gray-300 italic text-center max-w-xs">
-            Comienza a registrar entrenamientos para visualizar las estadísticas de desempeño aquí.
-          </p>
-        </div>
+        {data?.recentTrainings && data.recentTrainings.length > 0 ? (
+          <div className="space-y-4">
+            {data.recentTrainings.map((t, idx) => (
+              <div key={idx} className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
+                <div>
+                  <p className="font-semibold text-[#024580]">{t.perro} <span className="text-gray-400 font-normal">con {t.guia}</span></p>
+                  <p className="text-xs text-gray-500 italic mt-1">{t.fecha_sesion} • Obj: {t.objetivo || t.ocp}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-[#30E674]">{t.ua_c} UA Correctas</p>
+                  <p className="text-xs text-[#F878A3]">{t.ua_i} Errores</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-gray-50 rounded-[2rem] bg-gray-50/30">
+            <Activity size={64} className="text-gray-100 mb-6 drop-shadow-sm" />
+            <p className="text-gray-300 italic text-center max-w-xs">
+              Comienza a registrar entrenamientos para visualizar las estadísticas de desempeño aquí.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

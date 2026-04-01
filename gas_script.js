@@ -75,13 +75,16 @@ function handleGetEntities(doc) {
     precision = (totalUaC / (totalUaC + totalUaI)) * 100;
   }
   
+  const recent = [...trainings].reverse().slice(0, 5);
+
   return successResponse({
     dogs: dogs,
     guides: guides,
     counts: { dogs: dogs.length, guides: guides.length },
     stats: {
       precision: precision.toFixed(1)
-    }
+    },
+    recentTrainings: recent
   });
 }
 
