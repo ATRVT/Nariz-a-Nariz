@@ -46,7 +46,7 @@ export default function Dogs() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-black text-[#024580]">Unidad Canina</h2>
+        <h2 className="text-2xl font-semibold text-[#024580]">Unidad Canina</h2>
         <Dog size={32} className="text-[#F9953C]" />
       </div>
 

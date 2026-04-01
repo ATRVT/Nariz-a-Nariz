@@ -103,8 +103,8 @@ export default function NewTraining() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20 font-poppins">
-      <h2 className="text-3xl font-black text-[#024580] uppercase tracking-tight">Cargar Entrenamiento</h2>
+    <div className="max-w-4xl mx-auto space-y-6 pb-20">
+      <h2 className="text-2xl font-semibold text-[#024580] tracking-tight">Cargar Entrenamiento</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         
@@ -146,7 +146,7 @@ export default function NewTraining() {
                 )}
               </select>
               {dogs.length === 0 && (
-                <p className="text-[10px] text-red-500 mt-1 italic font-['Raleway']">Ve a "Unidad Canina" para registrar perros primero.</p>
+                <p className="text-[10px] text-red-500 mt-1 italic">Ve a "Unidad Canina" para registrar perros primero.</p>
               )}
             </div>
 
@@ -169,7 +169,7 @@ export default function NewTraining() {
                 )}
               </select>
               {guides.length === 0 && (
-                <p className="text-[10px] text-red-500 mt-1 italic font-['Raleway']">Ve a "Equipo" para registrar guías primero.</p>
+                <p className="text-[10px] text-red-500 mt-1 italic">Ve a "Equipo" para registrar guías primero.</p>
               )}
             </div>
           </div>

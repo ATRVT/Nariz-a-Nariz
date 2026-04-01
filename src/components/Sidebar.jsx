@@ -11,9 +11,9 @@ const navItems = [
 
 export default function Sidebar({ onClose }) {
   return (
-    <aside className="w-64 bg-[#024580] text-white h-screen flex flex-col font-poppins">
+    <aside className="w-64 bg-[#024580] text-white h-screen flex flex-col">
       <div className="p-6">
-        <h1 className="text-2xl font-black flex items-center gap-2">
+        <h1 className="text-xl font-bold flex items-center gap-2">
           <Dog className="text-[#F9953C]" />
           Nariz a Nariz
         </h1>
