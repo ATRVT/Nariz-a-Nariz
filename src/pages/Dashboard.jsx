@@ -62,9 +62,6 @@ export default function Dashboard() {
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col gap-2">
         <h2 className="text-3xl font-semibold text-[#024580] tracking-tight">Panel de Control</h2>
-        <p className="text-gray-500 font-normal italic text-lg">
-          "La detección biológica al servicio de la seguridad"
-        </p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
