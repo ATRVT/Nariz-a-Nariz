@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@theme {
+  --color-brand-green: #30E674;
+  --color-brand-dark-blue: #024580;
+  --color-brand-light-blue: #108BF7;
+  --color-brand-pink: #F878A3;
+  --color-brand-white: #F3F5F2;
+  --color-brand-orange: #F9953C;
+  
+  --color-primary: #024580;
+  --color-accent: #F9953C;
+  --color-primary-light: #108BF7;
+
+  --font-poppins: "Poppins", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-poppins);
+    @apply bg-[#F3F5F2] text-gray-900 antialiased;
+    font-weight: 400;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins);
+    @apply font-bold tracking-tight uppercase;
+  }
+
+  .font-body { font-family: var(--font-poppins); font-weight: 400; }
+  .font-heading { font-family: var(--font-poppins); font-weight: 700; }
+  .font-light { font-family: var(--font-poppins); font-weight: 300; }
+  .font-bold { font-family: var(--font-poppins); font-weight: 600; }
+  
+  .ubuntu-relevant, .ubuntu-numbering { font-family: var(--font-poppins); font-weight: 700; }
+}
+
+/* Remove numeric arrows (spinners) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Scrollbar customization for a more premium look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #024580;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #108BF7;
+}
