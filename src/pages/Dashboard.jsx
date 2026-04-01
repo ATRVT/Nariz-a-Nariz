@@ -41,20 +41,12 @@ export default function Dashboard() {
     },
     { 
       label: 'Precisión Estimada', 
-      value: '--- %', 
+      value: data?.stats?.precision ? `${data.stats.precision}%` : '0%', 
       icon: Target, 
       color: 'text-[#30E674]', 
       bg: 'bg-[#30E674]/10',
-      description: 'Media de UA Correctas'
-    },
-    { 
-      label: 'Sincronización', 
-      value: 'Activa', 
-      icon: Clock, 
-      color: 'text-[#F878A3]', 
-      bg: 'bg-[#F878A3]/10',
-      description: 'Conectado a Google Sheets'
-    },
+      description: 'Cálculo UA Correctas vs Incorrectas'
+    }
   ];
 
   if (loading) {
@@ -75,7 +67,7 @@ export default function Dashboard() {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 relative group overflow-hidden">
             <div className={`absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-5 group-hover:opacity-10 transition-opacity ${stat.bg}`}></div>

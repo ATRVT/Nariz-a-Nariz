@@ -58,11 +58,30 @@ function handleAddEntity(doc, entityType, data, timestamp) {
 function handleGetEntities(doc) {
   let dogs = getRowsAsObject(doc.getSheetByName('Unidad Canina'));
   let guides = getRowsAsObject(doc.getSheetByName('Equipo'));
+  let trainings = getRowsAsObject(doc.getSheetByName('Entrenamientos'));
+  
+  let totalUaC = 0;
+  let totalUaI = 0;
+  
+  trainings.forEach(t => {
+    let uac = parseFloat(t.ua_c) || 0;
+    let uai = parseFloat(t.ua_i) || 0;
+    totalUaC += uac;
+    totalUaI += uai;
+  });
+  
+  let precision = 0;
+  if (totalUaC + totalUaI > 0) {
+    precision = (totalUaC / (totalUaC + totalUaI)) * 100;
+  }
   
   return successResponse({
     dogs: dogs,
     guides: guides,
-    counts: { dogs: dogs.length, guides: guides.length }
+    counts: { dogs: dogs.length, guides: guides.length },
+    stats: {
+      precision: precision.toFixed(1)
+    }
   });
 }
 
