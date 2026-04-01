@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @theme {
   --color-brand-green: #30E674;
@@ -13,27 +12,27 @@
   --color-accent: #F9953C;
   --color-primary-light: #108BF7;
 
-  --font-poppins: "Poppins", sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 @layer base {
   body {
-    font-family: var(--font-poppins);
+    font-family: var(--font-sans);
     @apply bg-[#F3F5F2] text-gray-900 antialiased;
     font-weight: 400;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-poppins);
-    @apply font-bold tracking-tight uppercase;
+    font-family: var(--font-sans);
+    @apply font-medium tracking-tight;
   }
 
-  .font-body { font-family: var(--font-poppins); font-weight: 400; }
-  .font-heading { font-family: var(--font-poppins); font-weight: 700; }
-  .font-light { font-family: var(--font-poppins); font-weight: 300; }
-  .font-bold { font-family: var(--font-poppins); font-weight: 600; }
+  .font-body { font-family: var(--font-sans); font-weight: 400; }
+  .font-heading { font-family: var(--font-sans); font-weight: 500; }
+  .font-light { font-family: var(--font-sans); font-weight: 300; }
+  .font-bold { font-family: var(--font-sans); font-weight: 500; }
   
-  .ubuntu-relevant, .ubuntu-numbering { font-family: var(--font-poppins); font-weight: 700; }
+  .ubuntu-relevant, .ubuntu-numbering { font-family: var(--font-sans); font-weight: 500; }
 }
 
 /* Remove numeric arrows (spinners) */
