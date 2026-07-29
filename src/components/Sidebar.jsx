@@ -38,7 +38,7 @@ export default function Sidebar({ onClose }) {
       window.dispatchEvent(new Event('admin-state-changed'));
     } else {
       const code = prompt("Introduce la contraseña de administrador:");
-      if (code === 'nariz2026') {
+      if (code === 'narizanariz') {
         localStorage.setItem('nariz_admin', 'true');
         window.dispatchEvent(new Event('admin-state-changed'));
       } else if (code !== null) {
