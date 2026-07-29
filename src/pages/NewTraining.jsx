@@ -24,8 +24,8 @@ export default function NewTraining() {
       try {
         const data = await getEntities();
         if (data.status === 'success') {
-          setDogs(data.dogs || []);
-          setGuides(data.guides || []);
+          setDogs((data.dogs || []).filter(d => d.estado?.toLowerCase() !== 'inactivo'));
+          setGuides((data.guides || []).filter(g => g.estado?.toLowerCase() !== 'inactivo'));
         }
       } catch (err) {
         console.error("Error al cargar perros/guías:", err);

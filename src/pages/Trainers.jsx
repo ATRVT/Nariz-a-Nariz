@@ -110,8 +110,17 @@ export default function Trainers() {
                   <div className="w-12 h-12 bg-[#F9953C]/10 rounded-full flex items-center justify-center text-[#F9953C]">
                     <Users size={24} />
                   </div>
-                  <div>
-                    <p className="font-bold text-[#024580]">{trainer.nombre}</p>
+                  <div className="flex-grow">
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold text-[#024580]">{trainer.nombre}</p>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        trainer.estado?.toLowerCase() !== 'inactivo' 
+                          ? 'bg-green-100 text-green-750 text-green-700' 
+                          : 'bg-gray-100 text-gray-500'
+                      }`}>
+                        {trainer.estado || 'Activo'}
+                      </span>
+                    </div>
                     <p className="text-xs text-gray-500 italic">{trainer.rol || 'Miembro'}</p>
                   </div>
                 </div>
