@@ -17,6 +17,7 @@ export default function NewTraining() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [success, setSuccess] = useState(false);
+  const [isOfflineSave, setIsOfflineSave] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -69,14 +70,23 @@ export default function NewTraining() {
       const dog = dogs.find(d => String(d.id) === String(formData.dogId))?.nombre || 'Desconocido';
       const guide = guides.find(g => String(g.id) === String(formData.guideId))?.nombre || 'Desconocido';
 
-      await submitTraining({
+      const res = await submitTraining({
         ...formData,
         dog,
         guide
       });
 
+      if (res && res.status === 'offline') {
+        setIsOfflineSave(true);
+      } else {
+        setIsOfflineSave(false);
+      }
+
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      setTimeout(() => {
+        setSuccess(false);
+        setIsOfflineSave(false);
+      }, 3000);
       
       // Reset only sessions
       setFormData(prev => ({
@@ -280,10 +290,22 @@ export default function NewTraining() {
           <button 
             type="submit" 
             disabled={loading}
-            className={`w-full md:w-auto flex items-center justify-center gap-3 px-12 py-4 rounded-xl font-bold text-xl text-white transition-all transform hover:-translate-y-1 shadow-lg ${loading ? 'bg-gray-400 cursor-not-allowed' : success ? 'bg-green-500 shadow-green-200' : 'bg-primary hover:bg-primary-dark hover:shadow-primary/30'}`}
+            className={`w-full md:w-auto flex items-center justify-center gap-3 px-12 py-4 rounded-xl font-bold text-xl text-white transition-all transform hover:-translate-y-1 shadow-lg ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : success 
+                  ? isOfflineSave 
+                    ? 'bg-orange-500 shadow-orange-200' 
+                    : 'bg-green-500 shadow-green-200' 
+                  : 'bg-primary hover:bg-primary-dark hover:shadow-primary/30'
+            }`}
           >
             {loading ? 'Guardando...' : success ? (
-              <><CheckCircle2 size={24} /> ¡Guardado!</>
+              isOfflineSave ? (
+                <><CheckCircle2 size={24} /> ¡Guardado Offline!</>
+              ) : (
+                <><CheckCircle2 size={24} /> ¡Guardado!</>
+              )
             ) : (
               <><Send size={24} /> FINALIZAR</>
             )}

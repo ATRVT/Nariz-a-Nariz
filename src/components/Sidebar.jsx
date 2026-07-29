@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, ClipboardList, Dog, Users } from 'lucide-react';
+import { Home, ClipboardList, Dog, Users, CloudLightning } from 'lucide-react';
 import logoBida from '../assets/logo_bida.png';
+import { getOfflineTrainings } from '../lib/gasService';
 
 const navItems = [
   { path: '/', name: 'Dashboard', icon: Home },
@@ -10,6 +12,17 @@ const navItems = [
 ];
 
 export default function Sidebar({ onClose }) {
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    const updateCount = () => {
+      setPendingCount(getOfflineTrainings().length);
+    };
+    updateCount();
+    window.addEventListener('offline-trainings-updated', updateCount);
+    return () => window.removeEventListener('offline-trainings-updated', updateCount);
+  }, []);
+
   return (
     <aside className="w-64 bg-[#024580] text-white h-screen flex flex-col">
       <div className="p-6">
@@ -46,6 +59,15 @@ export default function Sidebar({ onClose }) {
       </nav>
       
       <div className="mt-auto p-6 flex flex-col gap-4 bg-black/10">
+        {pendingCount > 0 && (
+          <div className="bg-[#F9953C]/10 border border-[#F9953C]/30 text-[#F9953C] rounded-2xl p-3 flex items-center gap-3 animate-pulse">
+            <CloudLightning size={20} className="shrink-0" />
+            <div className="text-left">
+              <p className="font-bold text-xs">{pendingCount} lote{pendingCount > 1 ? 's' : ''} offline</p>
+              <p className="text-[10px] opacity-70">Pendiente de sincronizar</p>
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-center">
           <img 
             src={logoBida} 

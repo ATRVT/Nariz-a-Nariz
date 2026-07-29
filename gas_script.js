@@ -80,6 +80,7 @@ function handleGetEntities(doc) {
   return successResponse({
     dogs: dogs,
     guides: guides,
+    trainings: trainings,
     counts: { dogs: dogs.length, guides: guides.length },
     stats: {
       precision: precision.toFixed(1)

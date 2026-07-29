@@ -37,6 +37,7 @@ export default function Trainers() {
       await loadTrainers(); // Refresh list
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
+      console.error("Error al añadir miembro:", error);
       alert("Error al añadir miembro");
     } finally {
       setLoading(false);

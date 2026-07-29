@@ -37,6 +37,7 @@ export default function Dogs() {
       await loadDogs(); // Refresh list
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
+      console.error("Error al añadir perro:", error);
       alert("Error al añadir perro");
     } finally {
       setLoading(false);

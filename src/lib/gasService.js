@@ -23,7 +23,20 @@ export async function submitTraining(formData) {
     Notas: session.comments
   }));
 
-  return fetchRequest(payload);
+  if (typeof window !== 'undefined' && !navigator.onLine) {
+    console.warn("Client offline. Saving training to local storage.");
+    saveOfflineTraining(payload);
+    return { status: 'offline', message: 'Guardado localmente por estar sin conexión.' };
+  }
+
+  try {
+    const res = await fetchRequest(payload);
+    return res;
+  } catch (error) {
+    console.error("Online submission failed, saving offline:", error);
+    saveOfflineTraining(payload);
+    return { status: 'offline', message: 'Guardado localmente por fallo de red.' };
+  }
 }
 
 /**
@@ -71,4 +84,58 @@ async function fetchRequest(payload) {
     console.error("POST Request Error:", error);
     throw error;
   }
+}
+
+const OFFLINE_KEY = 'nariz_offline_trainings';
+
+export function getOfflineTrainings() {
+  try {
+    return JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveOfflineTraining(payload) {
+  const current = getOfflineTrainings();
+  current.push(payload);
+  localStorage.setItem(OFFLINE_KEY, JSON.stringify(current));
+  window.dispatchEvent(new Event('offline-trainings-updated'));
+}
+
+export function clearOfflineTrainings() {
+  localStorage.removeItem(OFFLINE_KEY);
+  window.dispatchEvent(new Event('offline-trainings-updated'));
+}
+
+export async function syncOfflineTrainings() {
+  const pending = getOfflineTrainings();
+  if (pending.length === 0) return { success: true, count: 0 };
+
+  const failed = [];
+  let successCount = 0;
+
+  for (const payload of pending) {
+    try {
+      const res = await fetchRequest(payload);
+      if (res && res.status === 'success') {
+        successCount++;
+      } else {
+        failed.push(payload);
+      }
+    } catch (error) {
+      console.error("Failed to sync batch:", error);
+      failed.push(payload);
+    }
+  }
+
+  if (failed.length > 0) {
+    localStorage.setItem(OFFLINE_KEY, JSON.stringify(failed));
+    window.dispatchEvent(new Event('offline-trainings-updated'));
+    throw new Error(`No se pudieron sincronizar ${failed.length} lotes de entrenamientos.`);
+  } else {
+    clearOfflineTrainings();
+  }
+
+  return { success: true, count: successCount };
 }
