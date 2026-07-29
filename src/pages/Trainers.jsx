@@ -9,8 +9,17 @@ export default function Trainers() {
   const [fetching, setFetching] = useState(true);
   const [success, setSuccess] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     loadTrainers();
+    
+    const updateAdmin = () => {
+      setIsAdmin(localStorage.getItem('nariz_admin') === 'true');
+    };
+    updateAdmin();
+    window.addEventListener('admin-state-changed', updateAdmin);
+    return () => window.removeEventListener('admin-state-changed', updateAdmin);
   }, []);
 
   async function loadTrainers() {
@@ -53,46 +62,48 @@ export default function Trainers() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Form Column */}
-        <div className="md:col-span-1">
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 space-y-4 sticky top-8">
-            <h3 className="text-lg font-bold text-[#024580] border-b pb-2 flex items-center gap-2">
-              <UserPlus size={20} className="text-[#F9953C]" />
-              Nuevo Miembro
-            </h3>
-            <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre Completo</label>
-              <input 
-                type="text" 
-                required
-                value={formData.nombre}
-                onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                className="w-full border border-gray-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#108BF7]"
-                placeholder="Ej. Carlos Mendoza"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Rol / Cargo</label>
-              <input 
-                type="text" 
-                value={formData.rol}
-                onChange={(e) => setFormData({...formData, rol: e.target.value})}
-                className="w-full border border-gray-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#108BF7]"
-                placeholder="Ej. Guía K9, Entrenador"
-              />
-            </div>
-            <button 
-              disabled={loading}
-              className={`w-full py-3 rounded-xl font-bold text-white transition-all ${
-                success ? 'bg-[#30E674]' : 'bg-[#024580] hover:bg-[#108BF7]'
-              }`}
-            >
-              {loading ? 'Guardando...' : success ? '¡Añadido!' : 'Añadir al Equipo'}
-            </button>
-          </form>
-        </div>
+        {isAdmin && (
+          <div className="md:col-span-1">
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 space-y-4 sticky top-8">
+              <h3 className="text-lg font-bold text-[#024580] border-b pb-2 flex items-center gap-2">
+                <UserPlus size={20} className="text-[#F9953C]" />
+                Nuevo Miembro
+              </h3>
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre Completo</label>
+                <input 
+                  type="text" 
+                  required
+                  value={formData.nombre}
+                  onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+                  className="w-full border border-gray-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#108BF7]"
+                  placeholder="Ej. Carlos Mendoza"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Rol / Cargo</label>
+                <input 
+                  type="text" 
+                  value={formData.rol}
+                  onChange={(e) => setFormData({...formData, rol: e.target.value})}
+                  className="w-full border border-gray-200 rounded-xl p-3 outline-none focus:ring-2 focus:ring-[#108BF7]"
+                  placeholder="Ej. Guía K9, Entrenador"
+                />
+              </div>
+              <button 
+                disabled={loading}
+                className={`w-full py-3 rounded-xl font-bold text-white transition-all ${
+                  success ? 'bg-[#30E674]' : 'bg-[#024580] hover:bg-[#108BF7]'
+                }`}
+              >
+                {loading ? 'Guardando...' : success ? '¡Añadido!' : 'Añadir al Equipo'}
+              </button>
+            </form>
+          </div>
+        )}
 
         {/* List Column */}
-        <div className="md:col-span-2 space-y-4">
+        <div className={isAdmin ? "md:col-span-2 space-y-4" : "md:col-span-3 space-y-4"}>
           <h3 className="text-xl font-bold text-[#024580]">Guías / Miembros</h3>
           {fetching ? (
             <div className="flex flex-col items-center py-12">

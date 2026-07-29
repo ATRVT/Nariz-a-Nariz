@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, ClipboardList, Dog, Users, CloudLightning } from 'lucide-react';
+import { Home, ClipboardList, Dog, Users, CloudLightning, Lock, Unlock } from 'lucide-react';
 import logoBida from '../assets/logo_bida.png';
 import { getOfflineTrainings } from '../lib/gasService';
 
@@ -13,15 +13,39 @@ const navItems = [
 
 export default function Sidebar({ onClose }) {
   const [pendingCount, setPendingCount] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const updateCount = () => {
       setPendingCount(getOfflineTrainings().length);
     };
+    const updateAdmin = () => {
+      setIsAdmin(localStorage.getItem('nariz_admin') === 'true');
+    };
     updateCount();
+    updateAdmin();
     window.addEventListener('offline-trainings-updated', updateCount);
-    return () => window.removeEventListener('offline-trainings-updated', updateCount);
+    window.addEventListener('admin-state-changed', updateAdmin);
+    return () => {
+      window.removeEventListener('offline-trainings-updated', updateCount);
+      window.removeEventListener('admin-state-changed', updateAdmin);
+    };
   }, []);
+
+  const handleAdminToggle = () => {
+    if (isAdmin) {
+      localStorage.removeItem('nariz_admin');
+      window.dispatchEvent(new Event('admin-state-changed'));
+    } else {
+      const code = prompt("Introduce la contraseña de administrador:");
+      if (code === 'nariz2026') {
+        localStorage.setItem('nariz_admin', 'true');
+        window.dispatchEvent(new Event('admin-state-changed'));
+      } else if (code !== null) {
+        alert("Contraseña incorrecta.");
+      }
+    }
+  };
 
   return (
     <aside className="w-64 bg-[#024580] text-white h-screen flex flex-col">
@@ -68,6 +92,26 @@ export default function Sidebar({ onClose }) {
             </div>
           </div>
         )}
+        <button 
+          onClick={handleAdminToggle}
+          className={`flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl border text-[10px] font-bold transition-all cursor-pointer ${
+            isAdmin 
+              ? 'bg-[#30E674]/10 border-[#30E674]/30 text-[#30E674]' 
+              : 'bg-white/5 border-white/10 text-blue-200 hover:bg-white/10'
+          }`}
+        >
+          {isAdmin ? (
+            <>
+              <Unlock size={12} />
+              <span>Modo Administrador</span>
+            </>
+          ) : (
+            <>
+              <Lock size={12} />
+              <span>Acceso Administrador</span>
+            </>
+          )}
+        </button>
         <div className="flex items-center justify-center">
           <img 
             src={logoBida} 
