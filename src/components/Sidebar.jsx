@@ -6,7 +6,7 @@ import { getOfflineTrainings } from '../lib/gasService';
 
 const navItems = [
   { path: '/', name: 'Dashboard', icon: Home },
-  { path: '/new', name: 'Nuevo Entrenamiento', icon: ClipboardList },
+  { path: '/new', name: 'Sesión', icon: ClipboardList },
   { path: '/dogs', name: 'Unidad Canina', icon: Dog },
   { path: '/trainers', name: 'Equipo', icon: Users },
 ];

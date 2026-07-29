@@ -114,7 +114,7 @@ export default function NewTraining() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
-      <h2 className="text-2xl font-semibold text-[#024580] tracking-tight">Cargar Entrenamiento</h2>
+      <h2 className="text-2xl font-semibold text-[#024580] tracking-tight">Cargar Sesión</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         
